@@ -16,6 +16,10 @@ const todoSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
   { versionKey: false, timestamps: true }
 );

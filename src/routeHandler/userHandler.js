@@ -72,4 +72,20 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// GET ALL USERS
+router.get("/all", async (req, res) => {
+  try {
+    const users = await User.find().populate("todos", "title -_id");
+    res.status(200).json({
+      data: users,
+      message: "Successful",
+    });
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({
+      error: "There is a server side error",
+    });
+  }
+});
+
 export default router;
