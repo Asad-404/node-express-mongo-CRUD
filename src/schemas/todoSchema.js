@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const todoSchema = mongoose.Schema(
+const todoSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -10,6 +10,7 @@ const todoSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "inactive"],
+      default: "active",
     },
     date: {
       type: Date,

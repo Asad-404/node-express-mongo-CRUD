@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import todoHandler from "./routeHandler/todoHandler.js";
+import userHandler from "./routeHandler/userHandler.js";
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
@@ -23,12 +26,15 @@ mongoose.connection.on("error", (err) => {
 });
 
 app.use("/todo", todoHandler);
+app.use("/user", userHandler);
 
-function errorHandler(err, req, res, next) {
+const errorHandler = (err, req, res, next) => {
   if (res.headerSent) {
     return next(err);
   }
   res.status(500).json({ error: err });
-}
+};
+
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));

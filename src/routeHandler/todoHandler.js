@@ -1,14 +1,15 @@
 import express from "express";
-import todoSchema from "../schemas/todoSchema.js";
 import mongoose from "mongoose";
-const router = express.Router();
+import todoSchema from "../schemas/todoSchema.js";
+import checkLogin from "../middlewares/checkLogin.js";
 
+const router = express.Router();
 const Todo = mongoose.model("Todo", todoSchema);
 
 // GET ALL
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   try {
-    const todos = await Todo.find()
+    const todoList = await Todo.find()
       .select({
         _id: 0,
         createdAt: 0,
@@ -18,7 +19,7 @@ router.get("/", async (req, res) => {
       .skip(0);
     res.status(200).json({
       message: "Todo fetches successfully",
-      data: todos,
+      data: todoList,
     });
   } catch (err) {
     res.status(500).json({
